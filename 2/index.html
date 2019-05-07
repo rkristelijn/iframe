@@ -16,9 +16,22 @@
 
     <title>Hello, (iframe) world!</title>
     <script type="text/javascript">
-      let getDimentions = doc => {};
+      let getDimensions = (doc, win) => {
+        console.log("doc, win", doc, win);
+        let w = Math.max(doc.documentElement.clientWidth, win.innerWidth || 0);
+        let h = Math.max(
+          doc.documentElement.clientHeight,
+          win.innerHeight || 0
+        );
+        return { w, h };
+      };
       let autoResize = frame => {
-        console.log(frame);
+        console.log("frame", frame);
+        let dimensions = getDimensions(
+          frame.contentDocument,
+          frame.contentWindow
+        );
+        console.log("dimensions", dimensions);
       };
     </script>
   </head>
@@ -43,7 +56,12 @@
         <div class="container">
           <h1 class="jumbotron-heading">Iframe example 2</h1>
           <p class="lead text-muted">
-            Trying to resize from parent (same domain)...
+            Trying to resize from parent using innerWidth and inner Height (same
+            domain)...
+          </p>
+          <p>
+            See console for more information: 
+            <pre>dimensions {w: 300, h: 150}</pre>
           </p>
         </div>
       </section>

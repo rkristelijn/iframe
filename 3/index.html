@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <style type="text/css">
+      pre {
+        text-align: left;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <title>Hello, (iframe) world!</title>
+    <script type="text/javascript">
+      // https://stackoverflow.com/questions/1145850/how-to-get-height-of-entire-document-with-javascript
+      let getHeight = doc => {
+        let body = doc.body,
+          html = doc.documentElement;
+
+        return Math.max(
+          body.scrollHeight,
+          body.offsetHeight,
+          html.clientHeight,
+          html.scrollHeight,
+          html.offsetHeight
+        );
+      };
+      // ... This code is from http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
+      let viewport = win => {
+        var e = win,
+          a = "inner";
+        if (!("innerWidth" in win)) {
+          a = "client";
+          e = document.documentElement || document.body;
+        }
+        return { width: e[a + "Width"], height: e[a + "Height"] };
+      };
+
+      // ... I was able to find a definitive answer in JavaScript: The Definitive Guide, 6th Edition by O'Reilly, p. 391:
+      // This solution works even in Quirks mode, while ryanve and ScottEvernden's current solution do not.
+      let getViewportSize = w => {
+        // Use the specified window or the current window if no argument
+        w = w || window;
+
+        // This works for all browsers except IE8 and before
+        if (w.innerWidth != null) return { w: w.innerWidth, h: w.innerHeight };
+
+        // For IE (or any browser) in Standards mode
+        var d = w.document;
+        if (d.compatMode == "CSS1Compat")
+          return {
+            w: d.documentElement.clientWidth,
+            h: d.documentElement.clientHeight
+          };
+
+        // For browsers in Quirks mode
+        return { w: d.body.clientWidth, h: d.body.clientHeight };
+      };
+      let write = (id, text, reset) => {
+        if (reset)
+          document.getElementById(id).innerHTML =
+            "See console for more information\n\n";
+        document.getElementById(id).innerHTML += text + "\n";
+      };
+      let getDimensions = (doc, win) => {
+        console.log("doc, win", doc, win);
+        let height = getHeight(doc);
+        let sizes = getViewportSize(win);
+        let viewportResult = viewport(win);
+        return {
+          document: {
+            clientHeight: doc.documentElement.clientHeight,
+            clientWidth: doc.documentElement.clientWidth
+          },
+          window: {
+            innerHeight: win.innerHeight,
+            innerWidth: win.innerWidth,
+            outerHeight: win.outerHeight,
+            outerWidth: win.outerWidth
+          },
+          getViewportSize: {
+            sizes
+          },
+          viewport: {
+            viewportResult
+          },
+          height
+        };
+      };
+      let getDimensionsParent = () => {
+        write(
+          "outputParent",
+          "parent: " +
+            JSON.stringify(
+              {
+                window: {
+                  innerHeight: window.innerHeight,
+                  innerWidth: window.innerWidth,
+                  outerHeight: window.outerHeight,
+                  outerWidth: window.outerWidth
+                },
+                document: {
+                  clientHeight: document.documentElement.clientHeight,
+                  clientWidth: document.documentElement.clientWidth
+                }
+              },
+              null,
+              2
+            ),
+          true
+        );
+      };
+      let autoResize = frame => {
+        console.log("frame", frame);
+        let dimensions = getDimensions(
+          frame.contentDocument,
+          frame.contentWindow
+        );
+        console.log("dimensions", dimensions);
+        write(
+          "outputChild",
+          "child: " + JSON.stringify(dimensions, null, 2),
+          true
+        );
+
+        let height = getHeight(frame.contentDocument);
+        frame.height = height;
+      };
+    </script>
+  </head>
+  <body onload="getDimensionsParent()" onresize="getDimensionsParent()">
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a href="/" class="navbar-brand d-flex align-items-center">
+            <strong>Home</strong>
+          </a>
+          <a href="/1/index.html">1</a>
+          <a href="/2/index.html">2</a>
+          <a href="/3/index.html">3</a>
+          <a href="/4/index.html">4</a>
+          <a href="/5/index.html">5</a>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Iframe example 3</h1>
+          <p class="lead text-muted">
+            Trying to resize from parent using innerWidth and inner Height (same
+            domain)...
+          </p>
+          <p>
+            It seems only getting the max of [body.scrollHeight,
+            body.offsetHeight, html.clientHeight, html.scrollHeight,
+            html.offsetHeight] of the child document works
+          </p>
+          <pre id="outputParent"></pre>
+          <pre id="outputChild"></pre>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <iframe
+            width="100%"
+            src="bofh.html"
+            onResize="autoResize(this)"
+            onLoad="autoResize(this)"
+            scrolling="no"
+            frameBorder="0"
+          ></iframe>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

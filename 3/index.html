@@ -21,7 +21,7 @@
     <title>Hello, (iframe) world!</title>
     <script type="text/javascript">
       // https://stackoverflow.com/questions/1145850/how-to-get-height-of-entire-document-with-javascript
-      let getHeight = doc => {
+      let getHeightMax = doc => {
         let body = doc.body,
           html = doc.documentElement;
 
@@ -32,6 +32,22 @@
           html.scrollHeight,
           html.offsetHeight
         );
+      };
+      let getHeight = doc => {
+        let body = doc.body,
+          html = doc.documentElement;
+
+        return {
+          body: {
+            scrollHeight: body.scrollHeight,
+            scrollHeight: body.scrollHeight
+          },
+          html: {
+            clientHeight: html.clientHeight,
+            scrollHeight: html.scrollHeight,
+            offsetHeight: html.offsetHeight
+          }
+        };
       };
       // ... This code is from http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
       let viewport = win => {
@@ -131,12 +147,13 @@
           true
         );
 
-        let height = getHeight(frame.contentDocument);
+        let height = getHeightMax(frame.contentDocument);
+        console.log("height:", height);
         frame.height = height;
       };
     </script>
   </head>
-  <body onload="getDimensionsParent()" onresize="getDimensionsParent()">
+  <body onload="getDimensionsParent()">
     <header>
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
@@ -175,7 +192,6 @@
           <iframe
             width="100%"
             src="bofh.html"
-            onResize="autoResize(this)"
             onLoad="autoResize(this)"
             scrolling="no"
             frameBorder="0"

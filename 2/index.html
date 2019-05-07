@@ -15,6 +15,12 @@
     />
 
     <title>Hello, (iframe) world!</title>
+    <script type="text/javascript">
+      let getDimentions = doc => {};
+      let autoResize = frame => {
+        console.log(frame);
+      };
+    </script>
   </head>
   <body>
     <header>
@@ -35,19 +41,18 @@
     <main role="main">
       <section class="jumbotron text-center">
         <div class="container">
-          <h1 class="jumbotron-heading">Iframe example 1</h1>
+          <h1 class="jumbotron-heading">Iframe example 2</h1>
           <p class="lead text-muted">
-            No settings whatsovever, just an <pre>&lt;iframe&gt;</pre> -tag
+            Trying to resize from parent (same domain)...
           </p>
         </div>
       </section>
 
       <div class="album py-5 bg-light">
         <div class="container">
-            <iframe src="http://bofh.bjash.com/"></iframe>
+          <iframe src="bofh.html" onLoad="autoResize(this)"></iframe>
         </div>
       </div>
-
     </main>
   </body>
 </html>

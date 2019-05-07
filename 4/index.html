@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <style type="text/css">
+      pre {
+        text-align: left;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <title>Hello, (iframe) world!</title>
+    <script type="text/javascript">
+      // https://stackoverflow.com/questions/1145850/how-to-get-height-of-entire-document-with-javascript
+      let getHeightMax = doc => {
+        let body = doc.body,
+          html = doc.documentElement;
+
+        return Math.max(
+          body.scrollHeight,
+          body.offsetHeight,
+          html.clientHeight,
+          html.scrollHeight,
+          html.offsetHeight
+        );
+      };
+      let getHeight = doc => {
+        let body = doc.body,
+          html = doc.documentElement;
+
+        return {
+          body: {
+            scrollHeight: body.scrollHeight,
+            scrollHeight: body.scrollHeight
+          },
+          html: {
+            clientHeight: html.clientHeight,
+            scrollHeight: html.scrollHeight,
+            offsetHeight: html.offsetHeight
+          }
+        };
+      };
+      let write = (id, text, reset) => {
+        if (reset)
+          document.getElementById(id).innerHTML =
+            "See console for more information\n\n";
+        document.getElementById(id).innerHTML += text + "\n";
+      };
+
+      let autoResize = frame => {
+        console.log("autoResize: frame", frame);
+
+        let height = getHeightMax(frame.contentDocument);
+        console.log(
+          "height:",
+          getHeight(frame.contentDocument),
+          "max is:",
+          height
+        );
+        frame.height = height;
+      };
+      let triggerResize = id => {
+        let frame = document.getElementById(id);
+        autoResize(frame);
+      };
+    </script>
+  </head>
+  <body onresize="triggerResize('myIframe')">
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a href="/" class="navbar-brand d-flex align-items-center">
+            <strong>Home</strong>
+          </a>
+          <a href="/1/index.html">1</a>
+          <a href="/2/index.html">2</a>
+          <a href="/3/index.html">3</a>
+          <a href="/4/index.html">4</a>
+          <a href="/5/index.html">5</a>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Iframe example 4</h1>
+          <p class="lead text-muted">
+            Resizing when parent resizes
+          </p>
+          <p>
+            onresize on iframe isn't triggered, so the resize of the parent
+            needs to retrigger getting the height. Weird behavior if you switch
+            to responsive in chrome.
+          </p>
+          <pre id="outputParent"></pre>
+          <pre id="outputChild"></pre>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <iframe
+            id="myIframe"
+            width="100%"
+            src="bofh.html"
+            onload="autoResize(this)"
+            onresize="autoResize(this)"
+            scrolling="no"
+            frameBorder="0"
+          ></iframe>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

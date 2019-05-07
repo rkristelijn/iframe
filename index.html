@@ -162,6 +162,45 @@
                 </div>
               </div>
             </div>
+
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <svg
+                  class="bd-placeholder-img card-img-top"
+                  width="100%"
+                  height="225"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMidYMid slice"
+                  focusable="false"
+                  role="img"
+                  aria-label="Placeholder: Thumbnail"
+                >
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="#55595c" />
+                  <text x="30%" y="50%" fill="#eceeef" dy=".3em">
+                    resize works
+                  </text>
+                </svg>
+                <div class="card-body">
+                  <p class="card-text">
+                    resizing works, but needs to be triggered by parent's resize
+                    event.
+                  </p>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div class="btn-group">
+                      <a
+                        href="/4/index.html"
+                        class="btn btn-primary btn-lg"
+                        role="button"
+                        >View</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -197,6 +236,13 @@
               href="https://www.456bereastreet.com/archive/201112/how_to_adjust_an_iframe_elements_height_to_fit_its_content/"
               >How to adjust an iframe element’s height to fit its content (says
               not possible on different domain)</a
+            >
+          </li>
+          <li>
+            iframe onresize() is
+            <a
+              href="https://stackoverflow.com/questions/27846057/iframe-does-not-trigger-resize-event"
+              >not triggered</a
             >
           </li>
         </ul>

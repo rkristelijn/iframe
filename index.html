@@ -201,6 +201,45 @@
                 </div>
               </div>
             </div>
+
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <svg
+                  class="bd-placeholder-img card-img-top"
+                  width="100%"
+                  height="225"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMidYMid slice"
+                  focusable="false"
+                  role="img"
+                  aria-label="Placeholder: Thumbnail"
+                >
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="#55595c" />
+                  <text x="30%" y="50%" fill="#eceeef" dy=".3em">
+                    cross domain doesn't
+                  </text>
+                </svg>
+                <div class="card-body">
+                  <p class="card-text">
+                    When you try to access the contents of the iframe, it throws
+                    an error.
+                  </p>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div class="btn-group">
+                      <a
+                        href="/4/index.html"
+                        class="btn btn-primary btn-lg"
+                        role="button"
+                        >View</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -258,6 +297,7 @@
                   rel="nofollow noreferrer"
                   >http://css-tricks.com/cross-domain-iframe-resizing/</a
                 >
+                - needs control over both domains to work
               </li>
 
               <li>
@@ -265,6 +305,8 @@
                   href="https://stackoverflow.com/questions/8223239/how-to-get-height-of-iframe-cross-domain"
                   >How to get height of iframe cross domain</a
                 >
+                fetches the site first with php (could as well be node) and then
+                gets the height from there
               </li>
 
               <li>
@@ -272,6 +314,11 @@
                   href="https://stackoverflow.com/questions/18765920/resize-iframe-height-according-to-content-height"
                   >Resize iframe height according to content height</a
                 >
+                link to
+                <a href="https://github.com/davidjbradshaw/iframe-resizer"
+                  >iframe-resizer</a
+                >
+                that has two scripts, one for the parent, one for the child
               </li>
 
               <li>
@@ -279,6 +326,8 @@
                   href="https://stackoverflow.com/questions/153152/resizing-an-iframe-based-on-content"
                   >Resizing an iframe based on content</a
                 >
+                - yet another solution that uses both changes on parent and
+                child
               </li>
             </ul>
           </li>
